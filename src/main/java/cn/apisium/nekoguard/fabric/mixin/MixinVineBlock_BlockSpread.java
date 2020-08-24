@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.VineBlock;
@@ -69,21 +70,21 @@ public abstract class MixinVineBlock_BlockSpread extends Block {
                         BlockPos blockPos3 = blockPos2.offset(direction5);
                         BlockPos blockPos4 = blockPos2.offset(direction3);
                         if (bl && shouldConnectTo(world, blockPos3, direction5)) {
-                            PushHandler.getInstance().onBlockSpread();
+                            BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos2).getBlock());
                             world.setBlockState(blockPos2, (BlockState)this.getDefaultState().with(getFacingProperty(direction5), true), 2);
                         } else if (bl2 && shouldConnectTo(world, blockPos4, direction3)) {
-                            PushHandler.getInstance().onBlockSpread();
+                            BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos2).getBlock());
                             world.setBlockState(blockPos2, (BlockState)this.getDefaultState().with(getFacingProperty(direction3), true), 2);
                         } else {
                             Direction direction4 = direction.getOpposite();
                             if (bl && world.isAir(blockPos3) && shouldConnectTo(world, pos.offset(direction5), direction4)) {
-                                PushHandler.getInstance().onBlockSpread();
+                                BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos3).getBlock());
                                 world.setBlockState(blockPos3, (BlockState)this.getDefaultState().with(getFacingProperty(direction4), true), 2);
                             } else if (bl2 && world.isAir(blockPos4) && shouldConnectTo(world, pos.offset(direction3), direction4)) {
-                                PushHandler.getInstance().onBlockSpread();
+                                BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos4).getBlock());
                                 world.setBlockState(blockPos4, (BlockState)this.getDefaultState().with(getFacingProperty(direction4), true), 2);
                             } else if ((double)world.random.nextFloat() < 0.05D && shouldConnectTo(world, blockPos2.up(), Direction.UP)) {
-                                PushHandler.getInstance().onBlockSpread();
+                                BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos2).getBlock());
                                 world.setBlockState(blockPos2, (BlockState)this.getDefaultState().with(UP, true), 2);
                             }
                         }
@@ -132,7 +133,7 @@ public abstract class MixinVineBlock_BlockSpread extends Block {
                         BlockState blockState4 = blockState3.isAir() ? this.getDefaultState() : blockState3;
                         BlockState blockState5 = this.getGrownState(state, blockState4, random);
                         if (blockState4 != blockState5 && this.hasHorizontalSide(blockState5)) {
-                            PushHandler.getInstance().onBlockSpread();
+                            BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(blockPos2).getBlock());
                             world.setBlockState(blockPos2, blockState5, 2);
                         }
                     }

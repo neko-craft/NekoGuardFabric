@@ -21,7 +21,7 @@ public abstract class MixinBlockItem_PlayerBlockPlace {
     private void onPlayerBlockPlace(Block block, World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack){
         block.onPlaced(world, pos, state, placer, itemStack);
         if(placer instanceof PlayerEntity){
-            BlockPlaceCallback.EVENT.invoker().interact(new BlockPlaceCallback.BlockPlace((PlayerEntity) placer, state.getBlock()));
+            BlockPlaceCallback.EVENT.invoker().interact((PlayerEntity) placer, state.getBlock());
         }
     }
 }

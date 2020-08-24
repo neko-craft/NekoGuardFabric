@@ -1,5 +1,8 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractEntityCallback;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import cn.apisium.nekoguard.fabric.PushHandler;
@@ -28,9 +31,9 @@ public abstract class MixinRedstoneOreBlock_PlayerInteractAndEntityInteract exte
     @Redirect(method = "onSteppedOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onSteppedOn(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;)V"))
     private void onPlayerInteractAndEntityInteract(Block block, World world, BlockPos pos, Entity entity){
         if(entity instanceof PlayerEntity){
-            PushHandler.getInstance().onPlayerInteract();
+            PlayerInteractCallback.EVENT.invoker().interact((PlayerEntity) entity);
         } else {
-            PushHandler.getInstance().onEntityInteract();
+            EntityInteractCallback.EVENT.invoker().interact((PlayerEntity) entity);
         }
         super.onSteppedOn(world, pos, entity);
     }

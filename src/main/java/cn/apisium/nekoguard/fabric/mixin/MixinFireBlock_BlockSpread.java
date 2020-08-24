@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,6 +16,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Random;
 
@@ -112,9 +115,7 @@ public abstract class MixinFireBlock_BlockSpread extends AbstractFireBlock {
                                     if (q > 0 && random.nextInt(o) <= q && (!world.isRaining() || !this.isRainingAround(world, mutable))) {
                                         int r = Math.min(15, i + random.nextInt(5) / 4);
                                         if (world.getBlockState(mutable).getBlock() != Blocks.FIRE) {
-                                            System.out.println("==========");
-                                            System.out.println("事件： BlockSpread");
-                                            PushHandler.getInstance().onBlockSpread();
+                                            BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(mutable).getBlock());
                                         }
                                         world.setBlockState(mutable, this.method_24855(world, mutable, r), 3);
                                     }

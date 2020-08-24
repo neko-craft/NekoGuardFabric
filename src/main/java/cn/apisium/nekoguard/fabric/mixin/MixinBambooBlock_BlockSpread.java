@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.BambooBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +18,6 @@ public abstract class MixinBambooBlock_BlockSpread {
 
     @Inject(method = "updateLeaves", at = @At("RETURN"))
     private void onBlockSpread(BlockState state, World world, BlockPos pos, Random random, int height, CallbackInfo ci){
-        PushHandler.getInstance().onBlockSpread();
+        BlockSpreadCallback.EVENT.invoker().interact(state.getBlock());
     }
 }

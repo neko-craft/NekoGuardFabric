@@ -1,6 +1,8 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.PlayerJoinCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerQuitCallback;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -14,11 +16,11 @@ public abstract class MixinPlayerManager_PlayerJoinAndPlayerQuit {
 
     @Inject(method = "onPlayerConnect", at = @At("HEAD"))
     private void onPlayerJoin(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci){
-        PushHandler.getInstance().onPlayerJoin();
+        PlayerJoinCallback.EVENT.invoker().interact(player);
     }
 
     @Inject(method = "remove", at = @At("RETURN"))
     private void onPlayerQuit(ServerPlayerEntity player, CallbackInfo ci){
-        PushHandler.getInstance().onPlayerQuit();
+        PlayerQuitCallback.EVENT.invoker().interact(player);
     }
 }

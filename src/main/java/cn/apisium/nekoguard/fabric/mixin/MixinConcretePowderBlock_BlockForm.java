@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockFormCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ConcretePowderBlock;
 import net.minecraft.item.ItemPlacementContext;
@@ -20,25 +21,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinConcretePowderBlock_BlockForm {
 
     @Shadow
-    protected static boolean hardensOnAnySide(BlockView world, BlockPos pos) {
+    private static boolean hardensOnAnySide(BlockView world, BlockPos pos) {
         return false;
     }
 
     @Redirect(method = "onLanding", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
     private boolean onBlockForm(World world, BlockPos pos, BlockState state, int flags){
-        PushHandler.getInstance().onBlockForm();
+        BlockFormCallback.EVENT.invoker().interact(world.getBlockState(pos).getBlock());
         return world.setBlockState(pos, state, flags);
     }
 
     @Inject(method = "getPlacementState", at = @At("HEAD"))
     private void onBlockForm(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir){
-        PushHandler.getInstance().onBlockForm();
+        BlockFormCallback.EVENT.invoker().interact(ctx.getWorld().getBlockState(ctx.getBlockPos()).getBlock());
     }
 
     @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"))
     private void onBlockForm(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom, CallbackInfoReturnable<BlockState> cir){
         if (hardensOnAnySide(world, pos)){
-            PushHandler.getInstance().onBlockForm();
+            BlockFormCallback.EVENT.invoker().interact(world.getBlockState(pos).getBlock());
         }
     }
 }

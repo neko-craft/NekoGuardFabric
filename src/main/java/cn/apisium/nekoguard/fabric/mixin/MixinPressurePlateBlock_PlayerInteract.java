@@ -1,8 +1,11 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PressurePlateBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,9 +27,9 @@ public abstract class MixinPressurePlateBlock_PlayerInteract {
         E ret = iterator.next();
         if(getRedstoneOutput(world.getBlockState(pos)) == 0){
             if(ret instanceof PlayerEntity){
-                PushHandler.getInstance().onPlayerInteract();
+                PlayerInteractCallback.EVENT.invoker().interact((PlayerEntity) ret);
             } else {
-                PushHandler.getInstance().onEntityInteract();
+                EntityInteractCallback.EVENT.invoker().interact((Entity) ret);
             }
         }
         return ret;

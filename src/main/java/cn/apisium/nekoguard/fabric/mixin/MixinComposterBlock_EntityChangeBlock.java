@@ -1,9 +1,12 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
+import cn.apisium.nekoguard.fabric.callback.EntityChangeBlockCallback;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import cn.apisium.nekoguard.fabric.PushHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.InventoryProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
@@ -22,7 +25,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ComposterBlock.class)
-public abstract class MixinComposterBlock_EntityChangeBlock {
+public abstract class MixinComposterBlock_EntityChangeBlock  extends Block implements InventoryProvider {
+
+    public MixinComposterBlock_EntityChangeBlock(Settings settings) {
+        super(settings);
+    }
 
     @Shadow
     public static BlockState emptyFullComposter(BlockState state, World world, BlockPos pos) {
@@ -40,7 +47,7 @@ public abstract class MixinComposterBlock_EntityChangeBlock {
 
     @Redirect(method = "compost", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/ComposterBlock;addToComposter(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/block/BlockState;"))
     private static BlockState onEntityChangeBlock(BlockState state, WorldAccess world, BlockPos pos, ItemStack item){
-        PushHandler.getInstance().onEntityChangeBlock();
+        EntityChangeBlockCallback.EVENT.invoker().interact(null, null);
         return addToComposter(state, world, pos, item);
     }
 
@@ -63,9 +70,7 @@ public abstract class MixinComposterBlock_EntityChangeBlock {
 
             return ActionResult.success(world.isClient);
         } else if (i == 8) {
-            if(player != null){
-                PushHandler.getInstance().onEntityChangeBlock();
-            }
+            EntityChangeBlockCallback.EVENT.invoker().interact(player, world.getBlockState(pos).getBlock());
             emptyFullComposter(state, world, pos);
             return ActionResult.success(world.isClient);
         } else {

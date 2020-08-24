@@ -29,21 +29,6 @@ public class PushHandler {
     public void onPlayerBucketEmpty() {
     }
 
-    public void onPlayerBucketFill() {
-    }
-
-    public void onBlockForm() {
-    }
-
-    public void onBlockFromTo() {
-    }
-
-    public void onBlockBurn() {
-    }
-
-    public void onEntityBlockForm() {
-    }
-
     public void onEntityPickupItem() {
     }
 

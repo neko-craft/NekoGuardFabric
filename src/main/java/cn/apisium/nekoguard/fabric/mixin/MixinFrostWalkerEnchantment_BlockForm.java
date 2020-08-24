@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityBlockFormCallback;
 import net.minecraft.block.*;
 import net.minecraft.enchantment.FrostWalkerEnchantment;
 import net.minecraft.entity.LivingEntity;
@@ -35,11 +36,7 @@ public abstract class MixinFrostWalkerEnchantment_BlockForm {
                     if (blockState2.isAir()) {
                         BlockState blockState3 = world.getBlockState(blockPos2);
                         if (blockState3.getMaterial() == Material.WATER && (Integer)blockState3.get(FluidBlock.LEVEL) == 0 && blockState.canPlaceAt(world, blockPos2) && world.canPlace(blockState, blockPos2, ShapeContext.absent())) {
-                            if(entity == null){
-                                PushHandler.getInstance().onBlockForm();
-                            } else {
-                                PushHandler.getInstance().onEntityBlockForm();
-                            }
+                            EntityBlockFormCallback.EVENT.invoker().interact(entity, world.getBlockState(blockPos).getBlock());
                             world.setBlockState(blockPos2, blockState);
                             world.getBlockTickScheduler().schedule(blockPos2, Blocks.FROSTED_ICE, MathHelper.nextInt(entity.getRandom(), 60, 120));
                         }

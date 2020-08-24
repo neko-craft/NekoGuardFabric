@@ -1,10 +1,12 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
 import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallMountedBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.state.property.BooleanProperty;
@@ -45,7 +47,7 @@ public abstract class MixinAbstractButtonBlock_EntityInteract extends WallMounte
         if(bl2 != bl && bl){
             for(Object obj : list){
                 if(obj != null){
-                    PushHandler.getInstance().onEntityInteract();
+                    EntityInteractCallback.EVENT.invoker().interact(null);
                 }
             }
         }

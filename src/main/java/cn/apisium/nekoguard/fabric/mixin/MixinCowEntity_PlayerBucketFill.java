@@ -1,7 +1,10 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.PlayerBucketFillCallback;
 import net.minecraft.entity.passive.CowEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -10,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class MixinCowEntity_PlayerBucketFill {
 
     @Redirect(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/CowEntity;isBaby()Z"))
-    private boolean onPlayerBucketFill(CowEntity cowEntity){
+    private boolean onPlayerBucketFill(CowEntity cowEntity, PlayerEntity player, Hand hand){
         boolean ret = cowEntity.isBaby();
         if(!ret){
-            System.out.println("==========");
-            System.out.println("事件： PlayerBucketFill");
-            PushHandler.getInstance().onPlayerBucketFill();
+            PlayerBucketFillCallback.EVENT.invoker().interact(player, null);
         }
         return ret;
     }

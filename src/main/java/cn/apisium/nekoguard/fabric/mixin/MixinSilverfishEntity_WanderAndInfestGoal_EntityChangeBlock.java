@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityChangeBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.InfestedBlock;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +14,7 @@ public abstract class MixinSilverfishEntity_WanderAndInfestGoal_EntityChangeBloc
     private boolean onEntityChangeBlock(BlockState block){
         boolean ret = InfestedBlock.isInfestable(block);
         if(ret){
-            PushHandler.getInstance().onEntityChangeBlock();
+            EntityChangeBlockCallback.EVENT.invoker().interact(null, block.getBlock());
         }
         return ret;
     }

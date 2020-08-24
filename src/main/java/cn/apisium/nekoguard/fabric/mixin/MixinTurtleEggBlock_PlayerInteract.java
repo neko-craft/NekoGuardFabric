@@ -1,6 +1,8 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.TurtleEggBlock;
@@ -29,11 +31,11 @@ public abstract class MixinTurtleEggBlock_PlayerInteract {
                 BlockState blockState = world.getBlockState(blockPos);
                 if (blockState.isOf(Blocks.TURTLE_EGG)) {
                     if(entity instanceof PlayerEntity){
-                        PushHandler.getInstance().onPlayerInteract();
+                        PlayerInteractCallback.EVENT.invoker().interact((PlayerEntity) entity);
                     } else {
                         PushHandler.getInstance().onEntityInteract();
                     }
-                    this.breakEgg(world, blockPos, blockState);
+                    EntityInteractCallback.EVENT.invoker().interact(entity);
                 }
             }
         }

@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.AbstractPlantStemBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
@@ -14,7 +15,7 @@ public abstract class MixinAbstractPlantStemBlock_BlockSpread {
 
     @Redirect(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z"))
     private boolean onBlockSpread(ServerWorld serverWorld, BlockPos pos, BlockState state){
-        PushHandler.getInstance().onBlockSpread();
+        BlockSpreadCallback.EVENT.invoker().interact(state.getBlock());
         return serverWorld.setBlockState(pos, state);
     }
 }

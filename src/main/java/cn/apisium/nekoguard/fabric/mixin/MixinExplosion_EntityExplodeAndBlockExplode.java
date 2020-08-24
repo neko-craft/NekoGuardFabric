@@ -84,9 +84,9 @@ public abstract class MixinExplosion_EntityExplodeAndBlockExplode {
             }
         });
         if(entity != null){
-            EntityExplodeCallback.EVENT.invoker().interact(new EntityExplodeCallback.EntityExplode(entity, blockList));
+            EntityExplodeCallback.EVENT.invoker().interact(entity, blockList);
         } else {
-            BlockExplodeCallback.EVENT.invoker().interact(new BlockExplodeCallback.BlockExplode(world.getBlockState(new BlockPos(x,y,z)).getBlock(), blockList));
+            BlockExplodeCallback.EVENT.invoker().interact(world.getBlockState(new BlockPos(x,y,z)).getBlock(), blockList);
         }
 
         if (bl2) {

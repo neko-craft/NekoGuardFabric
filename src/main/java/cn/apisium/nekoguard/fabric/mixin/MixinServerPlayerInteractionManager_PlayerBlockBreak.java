@@ -22,7 +22,7 @@ public abstract class MixinServerPlayerInteractionManager_PlayerBlockBreak {
     private BlockState onPlayerBlockBreak(ServerWorld serverWorld, BlockPos pos){
         BlockState ret = serverWorld.getBlockState(pos);
         Block block = ret.getBlock();
-        BlockBreakCallback.EVENT.invoker().interact(new BlockBreakCallback.BlockBreak(player, block));
+        BlockBreakCallback.EVENT.invoker().interact(player, block);
         return ret;
     }
 }

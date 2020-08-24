@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockFromToCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.FluidState;
@@ -19,13 +20,13 @@ public abstract class MixinFlowableFluid_BlockFromTo {
 
     @Redirect(method = "tryFlow", at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FlowableFluid;flow(Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;Lnet/minecraft/fluid/FluidState;)V"))
     private void onBlockFromTo1(FlowableFluid flowableFluid, WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState){
-        PushHandler.getInstance().onBlockFromTo();
+        BlockFromToCallback.EVENT.invoker().interact(world.getBlockState(pos).getBlock());
         flow(world, pos, state, direction, fluidState);
     }
 
     @Redirect(method = "method_15744", at = @At(value = "INVOKE", target = "Lnet/minecraft/fluid/FlowableFluid;flow(Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;Lnet/minecraft/fluid/FluidState;)V"))
     private void onBlockFromTo2(FlowableFluid flowableFluid, WorldAccess world, BlockPos pos, BlockState state, Direction direction, FluidState fluidState){
-        PushHandler.getInstance().onBlockFromTo();
+        BlockFromToCallback.EVENT.invoker().interact(world.getBlockState(pos).getBlock());
         flow(world, pos, state, direction, fluidState);
     }
 }

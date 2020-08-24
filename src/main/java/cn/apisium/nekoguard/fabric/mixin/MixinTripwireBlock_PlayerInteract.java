@@ -1,6 +1,8 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TripwireBlock;
 import net.minecraft.entity.Entity;
@@ -50,9 +52,9 @@ public abstract class MixinTripwireBlock_PlayerInteract {
             for(Object obj : list){
                 if(obj != null){
                     if(obj instanceof PlayerEntity){
-                        PushHandler.getInstance().onPlayerInteract();
+                        PlayerInteractCallback.EVENT.invoker().interact((PlayerEntity) obj);
                     } else if(obj instanceof Entity){
-                        PushHandler.getInstance().onEntityInteract();
+                        EntityInteractCallback.EVENT.invoker().interact((Entity) obj);
                     }
                 }
             }

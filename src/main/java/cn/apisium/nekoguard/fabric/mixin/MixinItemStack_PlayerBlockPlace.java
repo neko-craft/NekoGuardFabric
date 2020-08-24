@@ -16,7 +16,7 @@ public abstract class MixinItemStack_PlayerBlockPlace {
     private boolean onPlayerBlockPlace(ActionResult actionResult, ItemUsageContext context){
         boolean ret = actionResult.isAccepted();
         if(ret){
-            BlockPlaceCallback.EVENT.invoker().interact(new BlockPlaceCallback.BlockPlace(context.getPlayer(), context.getWorld().getBlockState(context.getBlockPos()).getBlock()));
+            BlockPlaceCallback.EVENT.invoker().interact(context.getPlayer(), context.getWorld().getBlockState(context.getBlockPos()).getBlock());
         }
         return ret;
     }

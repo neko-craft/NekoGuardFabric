@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SpreadableBlock;
 import net.minecraft.state.property.Property;
@@ -23,7 +24,7 @@ public abstract class MixinSpreadableBlock_BlockSpread {
     private boolean onBlockSpread(BlockState state, WorldView worldView, BlockPos pos){
         boolean ret = canSurvive(state, worldView, pos);
         if(!ret){
-            PushHandler.getInstance().onBlockSpread();
+            BlockSpreadCallback.EVENT.invoker().interact(state.getBlock());
         }
 
         return ret;

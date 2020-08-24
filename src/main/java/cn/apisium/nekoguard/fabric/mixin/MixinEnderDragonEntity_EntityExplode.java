@@ -64,7 +64,7 @@ public abstract class MixinEnderDragonEntity_EntityExplode extends MobEntity imp
             }
         }
 
-        EntityExplodeCallback.EVENT.invoker().interact(new EntityExplodeCallback.EntityExplode(this, destroyedBlocks));
+        EntityExplodeCallback.EVENT.invoker().interact(this, destroyedBlocks);
 
         if (bl2) {
             BlockPos blockPos2 = new BlockPos(i + this.random.nextInt(l - i + 1), j + this.random.nextInt(m - j + 1), k + this.random.nextInt(n - k + 1));

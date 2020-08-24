@@ -1,6 +1,8 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.EntityInteractCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerInteractCallback;
 import net.minecraft.block.AbstractPressurePlateBlock;
 import net.minecraft.block.WeightedPressurePlateBlock;
 import net.minecraft.entity.Entity;
@@ -23,9 +25,9 @@ public abstract class MixinWeightedPressurePlateBlock_PlayerInteract  extends Ab
     private void onPlayerInteract(World world, BlockPos pos, CallbackInfoReturnable<Integer> cir){
         for (Entity entity : world.getEntitiesIncludingUngeneratedChunks(Entity.class, WeightedPressurePlateBlock.BOX.offset(pos))) {
             if (entity instanceof PlayerEntity) {
-                PushHandler.getInstance().onPlayerInteract();
+                PlayerInteractCallback.EVENT.invoker().interact((PlayerEntity) entity);
             } else {
-                PushHandler.getInstance().onEntityInteract();
+                EntityInteractCallback.EVENT.invoker().interact(entity);
             }
         }
     }

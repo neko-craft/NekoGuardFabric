@@ -1,6 +1,7 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
+import cn.apisium.nekoguard.fabric.callback.BlockSpreadCallback;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,7 +17,7 @@ public abstract class MixinChorusFlowerBlock_BlockSpread {
 
     @Redirect(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/ChorusFlowerBlock;grow(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;I)V"))
     private void onBlockSpread(ChorusFlowerBlock chorusFlowerBlock, World world, BlockPos pos, int age){
-        PushHandler.getInstance().onBlockSpread();
+        BlockSpreadCallback.EVENT.invoker().interact(world.getBlockState(pos).getBlock());
         grow(world, pos, age);
     }
 }
