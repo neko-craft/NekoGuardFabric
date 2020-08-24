@@ -77,16 +77,19 @@ public abstract class MixinExplosion_EntityExplodeAndBlockExplode {
         }
 
         ArrayList<Block> blockList = new ArrayList<>();
+        ArrayList<BlockPos> blockPosList = new ArrayList<>();
+
         affectedBlocks.forEach(ab->{
             BlockState bs = world.getBlockState(ab);
             if(!bs.isAir()){
                 blockList.add(bs.getBlock());
+                blockPosList.add(ab);
             }
         });
         if(entity != null){
-            EntityExplodeCallback.EVENT.invoker().interact(entity, blockList);
+            EntityExplodeCallback.EVENT.invoker().interact(entity, blockPosList, blockList, world, entity.getBlockPos());
         } else {
-            BlockExplodeCallback.EVENT.invoker().interact(world.getBlockState(new BlockPos(x,y,z)).getBlock(), blockList);
+            BlockExplodeCallback.EVENT.invoker().interact(world.getBlockState(new BlockPos(x,y,z)).getBlock(), blockPosList, blockList, world, new BlockPos(x,y,z));
         }
 
         if (bl2) {

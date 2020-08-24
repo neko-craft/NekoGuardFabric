@@ -44,6 +44,7 @@ public abstract class MixinEnderDragonEntity_EntityExplode extends MobEntity imp
         boolean bl2 = false;
 
         List<Block> destroyedBlocks = new ArrayList<>();
+        List<BlockPos> destroyedBlockPosList = new ArrayList<>();
 
         for(int o = i; o <= l; ++o) {
             for(int p = j; p <= m; ++p) {
@@ -56,6 +57,7 @@ public abstract class MixinEnderDragonEntity_EntityExplode extends MobEntity imp
                         if (this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) && !BlockTags.DRAGON_IMMUNE.contains(block)) {
                             bl2 = this.world.removeBlock(blockPos, false) || bl2;
                             destroyedBlocks.add(block);
+                            destroyedBlockPosList.add(blockPos);
                         } else {
                             bl = true;
                         }
@@ -64,7 +66,7 @@ public abstract class MixinEnderDragonEntity_EntityExplode extends MobEntity imp
             }
         }
 
-        EntityExplodeCallback.EVENT.invoker().interact(this, destroyedBlocks);
+        EntityExplodeCallback.EVENT.invoker().interact(this, destroyedBlockPosList, destroyedBlocks, world, getBlockPos());
 
         if (bl2) {
             BlockPos blockPos2 = new BlockPos(i + this.random.nextInt(l - i + 1), j + this.random.nextInt(m - j + 1), k + this.random.nextInt(n - k + 1));

@@ -18,11 +18,12 @@ public abstract class MixinServerPlayerInteractionManager_PlayerBlockBreak {
 
     @Shadow public ServerPlayerEntity player;
 
+    @Shadow public ServerWorld world;
+
     @Redirect(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"))
     private BlockState onPlayerBlockBreak(ServerWorld serverWorld, BlockPos pos){
         BlockState ret = serverWorld.getBlockState(pos);
-        Block block = ret.getBlock();
-        BlockBreakCallback.EVENT.invoker().interact(player, block);
+        BlockBreakCallback.EVENT.invoker().interact(player, ret,world, pos);
         return ret;
     }
 }
