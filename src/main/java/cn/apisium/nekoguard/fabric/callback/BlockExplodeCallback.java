@@ -8,28 +8,10 @@ import java.util.List;
 
 public interface BlockExplodeCallback {
     Event<BlockExplodeCallback> EVENT = EventFactory.createArrayBacked(BlockExplodeCallback.class,
-            (listeners) -> (blockExplode) -> {
+            (listeners) -> (block, blocks) -> {
                 for (BlockExplodeCallback event : listeners) {
-                    event.interact(blockExplode);
+                    event.interact(block, blocks);
                 }
             });
-    void interact(BlockExplode event);
-
-    class BlockExplode{
-        private final Block block;
-        private final List<Block> blocks;
-
-        public BlockExplode(Block block, List<Block> blocks) {
-            this.block = block;
-            this.blocks = blocks;
-        }
-
-        public Block getBlock() {
-            return block;
-        }
-
-        public List<Block> getBlocks() {
-            return blocks;
-        }
-    }
+    void interact( Block block, List<Block> blocks);
 }

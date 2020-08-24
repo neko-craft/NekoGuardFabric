@@ -7,28 +7,10 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public interface BlockBreakCallback {
     Event<BlockBreakCallback> EVENT = EventFactory.createArrayBacked(BlockBreakCallback.class,
-            (listeners) -> (blockBreak) -> {
+            (listeners) -> (playerEntity, block) -> {
                 for (BlockBreakCallback event : listeners) {
-                    event.interact(blockBreak);
+                    event.interact(playerEntity, block);
                 }
             });
-    void interact(BlockBreak event);
-
-    class BlockBreak{
-        private final PlayerEntity playerEntity;
-        private final Block block;
-
-        public BlockBreak(PlayerEntity playerEntity, Block block) {
-            this.playerEntity = playerEntity;
-            this.block = block;
-        }
-
-        public Block getBlock() {
-            return block;
-        }
-
-        public PlayerEntity getPlayerEntity() {
-            return playerEntity;
-        }
-    }
+    void interact(PlayerEntity playerEntity, Block block);
 }
