@@ -1,7 +1,6 @@
 package cn.apisium.nekoguard.fabric.mixin;
 
-import cn.apisium.nekoguard.fabric.PushHandler;
-import cn.apisium.nekoguard.fabric.callback.EntityPickupItemCallback;
+import cn.apisium.nekoguard.fabric.callback.PlayerPickupItemCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +13,7 @@ public abstract class MixinItemEntity_PlayerPickupItem {
 
     @Redirect(method = "onPlayerCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;sendPickup(Lnet/minecraft/entity/Entity;I)V"))
     private void onPlayerPickupItem(PlayerEntity playerEntity, Entity item, int count){
-        EntityPickupItemCallback.EVENT.invoker().interact(playerEntity);
+        PlayerPickupItemCallback.EVENT.invoker().interact(playerEntity);
         playerEntity.sendPickup(item,count);
     }
 }

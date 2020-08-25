@@ -6,21 +6,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
-public interface PlayerDropItemCallback {
-    Event<PlayerDropItemCallback> EVENT = EventFactory.createArrayBacked(PlayerDropItemCallback.class,
+public interface PlayerPickupItemCallback {
+    Event<PlayerPickupItemCallback> EVENT = EventFactory.createArrayBacked(PlayerPickupItemCallback.class,
             (listeners) -> (playerEntity, item, world, pos) -> {
-                for (PlayerDropItemCallback event : listeners) {
+                for (PlayerPickupItemCallback event : listeners) {
                     event.interact(playerEntity, item, world, pos);
                 }
             });
 
     /**
-     * 玩家丢弃事件
+     * 玩家拾取物品事件
      * @param playerEntity 玩家
      * @param item 物品
-     * @param world 事件
+     * @param world 世界
      * @param pos 位置
      */
-    void interact(PlayerEntity playerEntity, Item item, World world, BlockPos pos);
+    void interact(@NotNull PlayerEntity playerEntity,@NotNull  Item item,@NotNull  World world,@NotNull  BlockPos pos);
 }

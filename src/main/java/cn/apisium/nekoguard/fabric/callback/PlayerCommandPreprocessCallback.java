@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
+import org.jetbrains.annotations.NotNull;
 
 public interface PlayerCommandPreprocessCallback {
     Event<PlayerCommandPreprocessCallback> EVENT = EventFactory.createArrayBacked(PlayerCommandPreprocessCallback.class,
@@ -12,5 +13,11 @@ public interface PlayerCommandPreprocessCallback {
                     event.interact(playerEntity, message);
                 }
             });
-    void interact(PlayerEntity playerEntity, String message );
+
+    /**
+     * 玩家使用命令事件
+     * @param playerEntity 玩家实体
+     * @param message 命令
+     */
+    void interact(@NotNull PlayerEntity playerEntity, @NotNull String message );
 }
