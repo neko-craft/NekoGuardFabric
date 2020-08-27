@@ -16,14 +16,14 @@ import java.util.Random;
 
 @Mixin(FireBlock.class)
 public abstract class MixinFireBlock {
-    private BlockPos source;
+    private BlockPos burnSource;
     // 添加这个注入来获取 burn 来源
     @Inject(method = "scheduledTick",
             at=@At(value = "INVOKE",
                     target = "Lnet/minecraft/block/FireBlock;trySpreadingFire(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;ILjava/util/Random;I)V",
                     ordinal = 0))
     private void onScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-        this.source = pos;
+        this.burnSource = pos;
     }
 
     // BlockFire 261
@@ -32,7 +32,7 @@ public abstract class MixinFireBlock {
                     target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;",
                     ordinal = 1))
     private BlockState onBlockBurn(World world, BlockPos pos){
-        BlockBurnCallback.EVENT.invoker().interact(world, this.source, pos);
+        BlockBurnCallback.EVENT.invoker().interact(world, this.burnSource, pos);
         return world.getBlockState(pos);
     }
 }
