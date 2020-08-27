@@ -1,4 +1,4 @@
-package cn.apisium.nekoguard.fabric.mixin;
+package cn.apisium.nekoguard.fabric.mixin.entity.explode;
 
 import cn.apisium.nekoguard.fabric.PushHandler;
 import cn.apisium.nekoguard.fabric.callback.EntityExplodeCallback;
