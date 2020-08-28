@@ -6,5 +6,5 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(Explosion.class)
 public abstract class MixinExplosion {
     // BlockExplodeEvent
-    // 处于方便与 EntityExplodeEvent 一同在 mixin.entity.explode.MixinExplosion 实现
+    // 处于方便与 EntityExplodeEvent 一同在 mixin.world.explode.MixinExplosion 实现
 }

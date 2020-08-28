@@ -5,14 +5,14 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "entity.interact.MixinAbstractButtonBlock",
-    "entity.vehicle.damage.MixinAbstractMinecartEntity",
+    "vehicle.damage.MixinAbstractMinecartEntity",
     "block.spread.MixinAbstractPlantStemBlock",
     "MixinArmorStandEntity_EntityDeath",
     "block.spread.MixinBambooBlock",
     "block.spread.MixinBambooSaplingBlock",
     "MixinBlockItem_PlayerBlockPlace",
-    "MixinBoatEntity_VehicleDamage",
-    "MixinBoatEntity_VehicleDestroy",
+    "vehicle.damage.MixinBoatEntity",
+    "vehicle.destroy.MixinBoatEntity",
     "MixinBoatItem_PlayerInteract",
     "MixinBucketItem_PlayerBucketEmpty",
     "MixinBucketItem_PlayerBucketFill",
@@ -49,7 +49,7 @@
     "MixinRavagerEntity_EntityChangeBlock",
     "MixinRedstoneOreBlock_EntityChangeBlock",
     "MixinRedstoneOreBlock_PlayerInteractAndEntityInteract",
-    "MixinServerPlayerInteractionManager_PlayerBlockBreak",
+    "player.breakblock.MixinServerPlayerInteractionManager",
     "MixinServerPlayerInteractionManager_PlayerInteract",
     "MixinServerPlayNetworkHandler_PlayerCommandPreprocessAndPlayerChat",
     "MixinServerPlayNetworkHandler_PlayerInteract",
@@ -65,9 +65,9 @@
     "MixinTurtleEntity_LayEggGoal_EntityChangeBlock",
     "block.spread.MixinVineBlock",
     "MixinWeightedPressurePlateBlock_PlayerInteract",
-    "entity.changeblock.MixinBeeEntity_GrowCropsGoal",
-    "entity.changeblock.MixinEatGrassGoal",
-    "entity.changeblock.MixinWitherEntity"
+    "entity.change.block.MixinBeeEntity_GrowCropsGoal",
+    "entity.change.block.MixinEatGrassGoal",
+    "entity.change.block.MixinWitherEntity"
   ],
   "client": [
     ""

@@ -1,4 +1,4 @@
-package cn.apisium.nekoguard.fabric.mixin.entity.changeblock;
+package cn.apisium.nekoguard.fabric.mixin.entity.change.block;
 
 import cn.apisium.nekoguard.fabric.callback.EntityChangeBlockCallback;
 import net.minecraft.block.Blocks;
