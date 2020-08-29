@@ -11,18 +11,17 @@ import org.jetbrains.annotations.NotNull;
 
 public interface EntityInteractCallback {
     Event<EntityInteractCallback> EVENT = EventFactory.createArrayBacked(EntityInteractCallback.class,
-            (listeners) -> (entity, block, world, pos) -> {
+            (listeners) -> (entity, pos) -> {
                 for (EntityInteractCallback event : listeners) {
-                    event.interact(entity, block, world, pos);
+                    event.interact(entity, pos);
                 }
             });
 
     /**
      * 实体互交事件
      * @param entity 实体
-     * @param block 互交的方块
-     * @param world 世界
      * @param pos 位置
+     * world 可以通过 entity 获得
      */
-    void interact(@NotNull Entity entity, @NotNull Block block, @NotNull World world, @NotNull BlockPos pos);
+    void interact(@NotNull Entity entity, @NotNull BlockPos pos);
 }

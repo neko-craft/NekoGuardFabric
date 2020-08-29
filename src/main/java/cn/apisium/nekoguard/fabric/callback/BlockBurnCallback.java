@@ -2,24 +2,24 @@ package cn.apisium.nekoguard.fabric.callback;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public interface BlockBurnCallback {
     Event<BlockBurnCallback> EVENT = EventFactory.createArrayBacked(BlockBurnCallback.class,
-            (listeners) -> (block, world, pos) -> {
+            (listeners) -> (world, source, target) -> {
                 for (BlockBurnCallback event : listeners) {
-                    event.interact(block, world, pos);
+                    event.interact(world, source, target);
                 }
             });
 
     /**
      * 火烧方块事件
-     * @param block 被烧的方块
-     * @param world 所在世界
-     * @param pos 所在位置
+     *
+     * @param world  世界
+     * @param source 源坐标
+     * @param target 目标坐标
      */
-    void interact(@NotNull Block block, @NotNull World world, @NotNull BlockPos pos);
+    void interact(@NotNull World world, @NotNull BlockPos source, @NotNull BlockPos target);
 }
